@@ -1,10 +1,15 @@
 import useCharacters from "../services/characters/useCharacters";
+import { CharacterInterface } from "../services/characters/index.d";
 
 export default function Characters() {
-  const { characters } = useCharacters();
+  const { data, status } = useCharacters();
+
+  if (status === "loading") return <div>Loading...</div>;
+
+  if (status === "error") return <div>Error</div>;
   return (
     <div>
-      {characters.map((character) => (
+      {data.results.map((character: CharacterInterface) => (
         <div key={character.id}>{character.name}</div>
       ))}
     </div>
