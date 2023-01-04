@@ -1,22 +1,16 @@
-import { useState, useEffect } from "react";
-import { CharacterInterface } from "./index.d";
+import { useQuery } from "react-query";
 
 const useCharacters = () => {
-  const [characters, setCharacters] = useState<CharacterInterface[]>([]);
-
   const fetchCharacters = async () => {
     const response = await fetch("https://rickandmortyapi.com/api/character");
-    const data = await response.json();
-    console.log(data);
-    setCharacters(data.results);
+    return response.json();
   };
 
-  useEffect(() => {
-    fetchCharacters();
-  }, []);
+  const { data, status } = useQuery("characters", fetchCharacters);
 
   return {
-    characters,
+    data,
+    status,
   };
 };
 
