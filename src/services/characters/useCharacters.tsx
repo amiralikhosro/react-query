@@ -17,10 +17,16 @@ const useCharacters = () => {
 
   const { data, status } = useQuery(["characters", page], fetchCharacters);
 
+  const onNextPage = () => data.info.next && setPage((prev) => prev + 1);
+
+  const onPrevPage = () => page !== 1 && setPage((prev) => prev - 1);
+
   return {
     data,
     status,
-    setPage,
+    page,
+    onNextPage,
+    onPrevPage,
   };
 };
 
