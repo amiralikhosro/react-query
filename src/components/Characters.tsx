@@ -3,11 +3,21 @@ import { CharacterInterface } from "../services/characters/index.d";
 import Character from "./Character";
 
 export default function Characters() {
-  const { data, status, page, onNextPage, onPrevPage } = useCharacters();
+  const {
+    data,
+    status,
+    isPreviousData,
+    isLoading,
+    isError,
+    page,
+    onNextPage,
+    onPrevPage,
+  } = useCharacters();
 
-  if (status === "loading") return <div>Loading...</div>;
+  if (isLoading) return <div>Loading...</div>;
 
-  if (status === "error") return <div>Error</div>;
+  if (isError) return <div>Error</div>;
+
   return (
     <div className="characters">
       {data.results.map((character: CharacterInterface) => (
@@ -17,7 +27,10 @@ export default function Characters() {
         <button disabled={page === 1} onClick={onPrevPage}>
           Previous
         </button>
-        <button disabled={!data.info.next} onClick={onNextPage}>
+        <button
+          disabled={isPreviousData || !data.info.next}
+          onClick={onNextPage}
+        >
           Next
         </button>
       </div>

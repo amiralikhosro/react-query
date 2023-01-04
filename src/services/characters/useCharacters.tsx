@@ -15,7 +15,13 @@ const useCharacters = () => {
     return response.json();
   };
 
-  const { data, status } = useQuery(["characters", page], fetchCharacters);
+  const { data, status, isPreviousData, isLoading, isError } = useQuery(
+    ["characters", page],
+    fetchCharacters,
+    {
+      keepPreviousData: true,
+    }
+  );
 
   const onNextPage = () => data.info.next && setPage((prev) => prev + 1);
 
@@ -24,6 +30,9 @@ const useCharacters = () => {
   return {
     data,
     status,
+    isPreviousData,
+    isLoading,
+    isError,
     page,
     onNextPage,
     onPrevPage,
